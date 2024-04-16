@@ -25,7 +25,7 @@ const recipe = {
 
 export {recipe};
 
-const recipes =[ {
+const orig_recipes =[ {
     title: ' My Mashed potatoes',
     feedback: {
         rating: 3.8,
@@ -122,7 +122,7 @@ const recipes =[ {
     ]
 }];
 
-export {recipes};
+export {orig_recipes};
 
 function toggleVisibility(id) {
     const element = document.getElementById(id+'myModal');
@@ -134,3 +134,19 @@ function toggleVisibility(id) {
 }
 
 export { toggleVisibility };
+
+function togglePrepared(title, index) {
+    const element = document.getElementById(title+index);
+    if (element.classList.contains('prepared')) {
+        element.classList.remove('prepared');
+        //element.style.textDecoration = 'none';
+        //element.style.color = 'black';
+    }
+    else{
+        //element.style.textDecoration = 'line-through';
+        //element.style.color = 'red';
+        element.classList.add('prepared');
+    }
+}
+
+export {togglePrepared};

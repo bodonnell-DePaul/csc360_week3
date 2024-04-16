@@ -7,7 +7,7 @@ function PreperationSteps(props) {
     const preperationSteps = props.steps.map((step, index) => {
         return (
             <Accordion defaultActiveKey="0">
-            <Accordion.Item eventKey="1" className={ step.completed ? 'completed' : '' }>
+            <Accordion.Item key={index+1} eventKey={index+1} className={ step.completed ? 'completed' : '' }>
               <Accordion.Header>Step: {index+1}</Accordion.Header>
               <Accordion.Body>
                 {step.description}

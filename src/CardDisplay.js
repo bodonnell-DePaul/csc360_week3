@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './index.css';
 //import App from './App';
 import RecipeTitle from './RecipeTitle';
 import IngredientList from './IngredientList';
-import {recipes} from './Common';
+import {orig_recipes} from './Common';
 import {toggleVisibility} from './Common';
+import {togglePrepared} from './Common';
 import PreperationSteps from './PreperationSteps';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -16,9 +17,66 @@ import Col from 'react-bootstrap/Col';
 
 
 function CardDisplay(){
-    const cards = recipes.map((recipe, index) => {
+
+    const [activeModal, setActiveModal] = useState(null);
+    const [ prepared, setPrepared ] = useState(false);
+    const [ recipes, setRecipe ] = useState(orig_recipes);
+    const [trigger, setTrigger] = useState(0);
+
+    const showModal = (modalId) => {
+        setActiveModal(modalId);
+      };
+      
+    const hideModal = () => {
+        setActiveModal(null);
+      };
+
+    const forceEffect = () => {
+        setTrigger(prev => prev + 1); // Updating 'trigger' state to force re-run of useEffect
+      };
+
+    function ingredientClick(title,index) {
+        for (let i = 0; i < recipes.length; i++) {
+            if(recipes[i].title === title){
+                for(let j = 0; j < recipes[i].ingredients.length; j++){
+                    if (j === index) {
+                        recipes[i].ingredients[index].prepared = !recipes[i].ingredients[index].prepared
+                        setRecipe(recipes);
+                        togglePrepared(title, index);
+                        forceEffect();
+
+                    }
+                }   
+            }
+        }
+    }
+
+    useEffect(() => {
+        console.log("useEffect")
+        for(let i = 0; i < recipes.length; i++){
+            let prepared = true;
+            //let retval = setPrepared(recipes[i].ingredients.every(i => i.prepared));
+            for(let j = 0; j < recipes[i].ingredients.length; j++){
+                if(recipes[i].ingredients[j].prepared === false){
+                    prepared = false;
+                    setPrepared(false);
+                }
+            }
+            if(prepared){
+                setPrepared(true);
+                break;
+            }
+        }
+
+        setRecipe(recipes);
+    }, [trigger]);
+    
+
+
+    const cards = orig_recipes.map((recipe, index) => {
+        
         return (
-            <Col>
+            <Col key={index}>
                 <Card style={{ width: '20rem' }}>
                     <Card.Img variant="top" src="https://www.slyhkitchen.com/wp-content/uploads/2014/10/Mashed-Potatoes.jpg" />
                     <Card.Body>
@@ -28,23 +86,21 @@ function CardDisplay(){
                         <Card.Text>
                             Some delicious mashed potatoes, unfortunately without any cheese
                         </Card.Text>
-                        <Button variant="primary" onClick={()=>toggleVisibility(index)}>Show Details</Button>
+                        <Button variant="primary" onClick={() => showModal(`${index}myModal`)}>Show Details</Button>
                     </Card.Body>
                 </Card>
 
-                <div id={`${index}myModal`} className="modal"style={{ display: 'hide', position: 'fixed' }}>
-                <Modal.Dialog>
-                <Modal.Header onClick={()=>toggleVisibility(index)} closeButton>
+                <Modal id={`${index}myModal`} show={activeModal === `${index}myModal`} onHide={hideModal}>
+                <Modal.Header closeButton>
                         <Modal.Title>{recipe.title}</Modal.Title>
                     </Modal.Header>
 
                     <Modal.Body>
-                        <IngredientList ingredients={recipe.ingredients}/>
+                        <IngredientList ingredients={recipe.ingredients} title={recipe.title} onClick={ingredientClick}/>
+                        { prepared ? <h2>Prep work done!</h2> : <h2>Just keep chopping</h2>}
                         <PreperationSteps steps={recipe.steps}/>
                     </Modal.Body>
-
-                </Modal.Dialog>
-                </div>
+                </Modal>
             </Col>
         );
     });
