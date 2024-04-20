@@ -135,18 +135,18 @@ function toggleVisibility(id) {
 
 export { toggleVisibility };
 
-function togglePrepared(title, index) {
-    const element = document.getElementById(title+index);
-    if (element.classList.contains('prepared')) {
-        element.classList.remove('prepared');
-        //element.style.textDecoration = 'none';
-        //element.style.color = 'black';
-    }
-    else{
-        //element.style.textDecoration = 'line-through';
-        //element.style.color = 'red';
-        element.classList.add('prepared');
-    }
-}
+// function togglePrepared(title, index) {
+//     const element = document.getElementById(title+index);
+//     if (element.classList.contains('prepared')) {
+//         element.classList.remove('prepared');
+//         //element.style.textDecoration = 'none';
+//         //element.style.color = 'black';
+//     }
+//     else{
+//         //element.style.textDecoration = 'line-through';
+//         //element.style.color = 'red';
+//         element.classList.add('prepared');
+//     }
+// }
 
-export {togglePrepared};
+// export {togglePrepared};

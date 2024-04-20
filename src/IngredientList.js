@@ -6,10 +6,9 @@ function IngredientList(props) {
 
     // Create the list items using map
     const ingredientListItems = props.ingredients.map((ingredient, index) => {
-        const item_id = props.title+index;
         return (  
             
-            <ListGroup.Item as="li" id={item_id} key={index} className={ ingredient.prepared ? 'prepared' : '' }  onClick={ () => props.onClick(props.title,index) }>
+            <ListGroup.Item as="li" key={index} className={ ingredient.prepared ? 'prepared' : '' }  onClick={ () => props.onClick(props.title,index) }>
                 {ingredient.name}
             </ListGroup.Item>   
         );
