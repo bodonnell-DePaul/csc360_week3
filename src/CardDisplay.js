@@ -3,7 +3,7 @@ import './index.css';
 //import App from './App';
 import RecipeTitle from './RecipeTitle';
 import IngredientList from './IngredientList';
-import {orig_recipes} from './Common';
+import {api_recipes} from './Common';
 //import {toggleVisibility} from './Common';
 //import {togglePrepared} from './Common';
 import PreperationSteps from './PreperationSteps';
@@ -17,12 +17,15 @@ import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';
 
 
+
 function CardDisplay(){
 
-    const [recipes, setRecipe ] = useState(orig_recipes);
+    const [recipes, setRecipe ] = useState(api_recipes);
     const [trigger, setTrigger] = useState(0);
     const [prepared, setPrepared ] = useState(false);
-    const [activeModal, setActiveModal] = useState(null);    
+    const [activeModal, setActiveModal] = useState(null);   
+    const [apiHelloWorld, setHelloWorld] = useState(null); 
+    const [apiWeather, setWeatherData] = useState(null); 
     
 
     function showModal(modalId) {
@@ -49,23 +52,41 @@ function CardDisplay(){
 
     // useEffect hook to perform side effects in the component
     useEffect(() => {
-        // Log to console every time the effect runs
-        console.log("useEffect");
 
+        if(apiHelloWorld === null){
+            fetch('http://127.0.0.1:5172/recipes')
+            .then(response => response.text())
+            .then(data => setHelloWorld(data))
+        }
+
+        if(apiWeather === null){
+            fetch('http://127.0.0.1:5172/weatherforecast')
+            .then(response => response.json())
+            .then(data => setWeatherData(data))
+        }
+
+        fetch('http://127.0.0.1:5172/recipeTitles')
+        .then(response => response.json())
+        .then(data => setRecipe(data))
+
+
+        console.log(recipes);
         // Iterate over the array of recipes
         for(let i = 0; i < recipes.length; i++){
             // Assume the recipe is prepared initially
             let prepared = true;
 
             // Check each ingredient of the current recipe
-            for(let j = 0; j < recipes[i].ingredients.length; j++){
-                // If any ingredient is not prepared, set the prepared flag to false
-                if(recipes[i].ingredients[j].prepared === false){
-                    prepared = false;
-                    // Update the prepared state to false
-                    setPrepared(prepared);
-                    break;
-                    
+            if(recipes[i].ingredients){
+                for(let j = 0; j < recipes[i].ingredients.length; j++){
+                    // If any ingredient is not prepared, set the prepared flag to false
+                    if(recipes[i].ingredients[j].prepared === false){
+                        prepared = false;
+                        // Update the prepared state to false
+                        setPrepared(prepared);
+                        break;
+                        
+                    }
                 }
             }
 
@@ -83,17 +104,17 @@ function CardDisplay(){
 
     
 
-    const cards = orig_recipes.map((recipe, index) => { 
+    const cards = api_recipes.map((recipe, index) => { 
         return (
             <Col key={index}>
                 <Card style={{ width: '20rem' }}>
-                    <Card.Img variant="top" src="https://www.slyhkitchen.com/wp-content/uploads/2014/10/Mashed-Potatoes.jpg" />
+                    <Card.Img variant="top" src={recipe.imageUrl} />
                     <Card.Body>
                         <Card.Title>
-                            <RecipeTitle title={recipe.title} feedback={recipe.feedback}/> 
+                            <RecipeTitle title={recipe.title} review={recipe.review}/> 
                         </Card.Title>
                         <Card.Text>
-                            Some delicious mashed potatoes, unfortunately without any cheese
+                            {recipe.description}
                         </Card.Text>
                         <Button variant="primary" onClick={() => showModal(`${index}myModal`)}>Show Details</Button>
                     </Card.Body>
@@ -114,9 +135,18 @@ function CardDisplay(){
     });
     return(
         <Container>
+            <h1>{apiHelloWorld}</h1>
             <Row>
                 {cards}
             </Row>
+            {apiWeather && apiWeather.map((day,index) => (
+                    <div key={index}>
+                        <h1>Date: {day.date}</h1>
+                        <h3>Temp: {day.temperatureF}</h3>
+                        <h3>Summary: {day.summary}</h3>
+                    </div>
+                ))
+            }
         </Container>
     )
 }
