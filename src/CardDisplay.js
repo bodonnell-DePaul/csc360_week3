@@ -4,8 +4,6 @@ import './index.css';
 import RecipeTitle from './RecipeTitle';
 import IngredientList from './IngredientList';
 import {api_recipes} from './Common';
-//import {toggleVisibility} from './Common';
-//import {togglePrepared} from './Common';
 import PreperationSteps from './PreperationSteps';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -78,15 +76,8 @@ function CardDisplay(){
             if(recipeIngredients[i].recipeTitle === title){
                 recipeIngredients[index].prepared = !recipeIngredients[index].prepared
                 setIngredients(recipeIngredients);
-                //setTrigger(trigger + 1);
+                setTrigger(trigger + 1);
 
-                // for(let j = 0; j < recipeIngredients.ingredients.length; j++){
-                //     if (j === index) {
-                //         recipes[i].ingredients[index].prepared = !recipes[i].ingredients[index].prepared
-                //         setRecipe(recipes);
-                //         setTrigger(trigger + 1);
-                //     }
-                // }   
             }
         }
     }
