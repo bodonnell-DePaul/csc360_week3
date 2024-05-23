@@ -4,17 +4,30 @@ import {Form, Button, FormGroup} from "react-bootstrap";
 
 
 function Authenticate(e){
-    fetch('http://127.0.0.1:5172/Login',{
+    fetch('http://127.0.0.1:5172/login',{
         method: "POST",
         headers: {
             "Content-type" : "application/json",
             "Authorization": "Basic " + btoa(e.target.elements.username.value + ":" + e.target.elements.password.value)
 
         },
+        })
+        .then(response => response.text())
+        .then(data => { 
+            console.log(data);
+    })
+}
+
+function NewUser(e){
+    fetch('http://127.0.0.1:5172/newUser',{
+        method: "POST",
+        headers: {
+            "Content-type" : "application/json",
+
+        },
         body: JSON.stringify({
-            title: e.target.elements.title.value,
-            description: e.target.elements.description.value,
-            imageUrl: e.target.elements.imageUrl.value
+            username: e.target.elements.new_username.value,
+            password: e.target.elements.new_password.value,
         })
         })
         .then(response => response.text())
@@ -42,6 +55,22 @@ function Login() {
                     <Form.Control type="password" name="password" required/>
                 </FormGroup>
                 <Button variant='primary' type="submit" className="w-100">Login</Button>
+            </Form>
+            <br/>
+            <h1>New User</h1>.
+            <Form onSubmit={(e) =>{
+                e.preventDefault();
+                NewUser(e);
+                e.target.reset();
+            }}>
+                <FormGroup className='mb-3'>
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control type="text" name="new_username" required/>
+
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type="password" name="new_password" required/>
+                </FormGroup>
+                <Button variant='primary' type="submit" className="w-100">Create User</Button>
             </Form>
         </div>
 
