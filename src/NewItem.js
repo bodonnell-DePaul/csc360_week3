@@ -1,5 +1,6 @@
 
 import { Button, Form } from 'react-bootstrap';
+import Cookies from 'js-cookie';
 
 function RecipeSubmit(e) {
 
@@ -7,7 +8,7 @@ function RecipeSubmit(e) {
     method: "POST",
     headers: {
         "Content-type" : "application/json",
-        "Authorization": "Basic " + btoa("brian:password")
+        "Authorization": "Basic " + Cookies.get('base64')
     },
     body: JSON.stringify({
         title: e.target.elements.title.value,

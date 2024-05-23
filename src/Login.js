@@ -4,41 +4,57 @@ import {Form, Button, FormGroup} from "react-bootstrap";
 import Cookies from 'js-cookie';
 
 
-function Authenticate(e){
-    fetch('http://127.0.0.1:5172/login',{
-        method: "POST",
-        headers: {
-            "Content-type" : "application/json",
-            "Authorization": "Basic " + btoa(e.target.elements.username.value + ":" + e.target.elements.password.value)
+function Authenticate(e)
+{
+    fetch('http://127.0.0.1:5172/login',
+        {
+            method: "POST",
+            headers: 
+            {
+                "Content-type" : "application/json",
+                "Authorization": "Basic " + btoa(e.target.elements.username.value + ":" + e.target.elements.password.value)
 
-        },
-        })
-        .then(response => {
+            },
+            body: JSON.stringify(
+                {
+                    username: e.target.elements.username.value,
+                    password: e.target.elements.password.value
+                }
+            )
+        }
+    )
+    .then(response => {
             if (response.ok) { // Check if response went through
                 return response.text();
             } else {
                 throw new Error('Network response was not ok.');
             }
         })
-        .then(data => { 
+    .then(data => { 
             console.log(data);
+            let dataObj = JSON.parse(data);
             Cookies.set('auth', data, { expires: 7 }); // The cookie will expire after 7 days
-        }).catch(error => {
+            Cookies.set('base64', btoa(dataObj.username+":"+dataObj.password), { expires: 7 });
+        })
+    .catch(error => {
         console.log('There has been a problem with your fetch operation: ', error.message);
-    });
+        })
 }
+
 
 function NewUser(e){
     fetch('http://127.0.0.1:5172/newUser',{
-        method: "POST",
-        headers: {
-            "Content-type" : "application/json",
+            method: "POST",
+            headers: {
+                "Content-type" : "application/json",
 
-        },
-        body: JSON.stringify({
-            username: e.target.elements.new_username.value,
-            password: e.target.elements.new_password.value,
-        })
+            },
+            body: JSON.stringify(
+                {
+                    username: e.target.elements.new_username.value,
+                    password: e.target.elements.new_password.value,
+                }
+            )
         })
         .then(response => response.text())
         .then(data => { 
