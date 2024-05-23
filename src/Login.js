@@ -1,6 +1,7 @@
 import logo from './hero.png';
 import './Login.css';
 import {Form, Button, FormGroup} from "react-bootstrap";
+import Cookies from 'js-cookie';
 
 
 function Authenticate(e){
@@ -12,10 +13,19 @@ function Authenticate(e){
 
         },
         })
-        .then(response => response.text())
+        .then(response => {
+            if (response.ok) { // Check if response went through
+                return response.text();
+            } else {
+                throw new Error('Network response was not ok.');
+            }
+        })
         .then(data => { 
             console.log(data);
-    })
+            Cookies.set('auth', data, { expires: 7 }); // The cookie will expire after 7 days
+        }).catch(error => {
+        console.log('There has been a problem with your fetch operation: ', error.message);
+    });
 }
 
 function NewUser(e){
