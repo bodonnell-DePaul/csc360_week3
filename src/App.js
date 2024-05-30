@@ -10,7 +10,7 @@ import NewItem from './NewItem';
 
 function App() {
   return (
-    <Router basename='https://witty-coast-0d35ec910.5.azurestaticapps.net/index.html'>
+    <Router >
       <Navigation/>
       <Routes>
         <Route exact path="/" element={<CardDisplay/>} />
