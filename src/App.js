@@ -10,7 +10,7 @@ import NewItem from './NewItem';
 
 function App() {
   return (
-    <Router>
+    <Router basename="https://csc360-backend.azurewebsites.net">
       <Navigation/>
       <Routes>
         <Route path="/" element={<CardDisplay/>} />
