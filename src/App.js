@@ -10,13 +10,13 @@ import NewItem from './NewItem';
 
 function App() {
   return (
-    <Router basename="https://csc360-backend.azurewebsites.net">
+    <Router >
       <Navigation/>
       <Routes>
-        <Route path="/" element={<CardDisplay/>} />
-        <Route path="/drafts" element={<Drafts/>} />
-        <Route path="/login" element={<Login/>} />
-        <Route path="/newItem" element={<NewItem/>} />
+        <Route exact path="/" element={<CardDisplay/>} />
+        <Route path="/:drafts" element={<Drafts/>} />
+        <Route path="/:login" element={<Login/>} />
+        <Route path="/:newItem" element={<NewItem/>} />
       </Routes>
     </Router>
   );
