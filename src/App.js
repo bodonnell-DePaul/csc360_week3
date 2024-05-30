@@ -10,13 +10,13 @@ import NewItem from './NewItem';
 
 function App() {
   return (
-    <Router >
+    <Router basename='https://witty-coast-0d35ec910.5.azurestaticapps.net/index.html'>
       <Navigation/>
       <Routes>
         <Route exact path="/" element={<CardDisplay/>} />
-        <Route path="/:drafts" element={<Drafts/>} />
-        <Route path="/:login" element={<Login/>} />
-        <Route path="/:newItem" element={<NewItem/>} />
+        <Route path="/drafts" element={<Drafts/>} />
+        <Route path="/login" element={<Login/>} />
+        <Route path="/newItem" element={<NewItem/>} />
       </Routes>
     </Router>
   );
