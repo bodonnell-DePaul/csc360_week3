@@ -2,10 +2,18 @@ import logo from './hero.png';
 import './Login.css';
 import {Form, Button, FormGroup} from "react-bootstrap";
 import Cookies from 'js-cookie';
+import { ApplicationInsights } from '@microsoft/applicationinsights-web'
+
+const appInsights = new ApplicationInsights({config: {
+  instrumentationKey: ''
+  /* ...Other Configuration Options... */
+}});
+appInsights.loadAppInsights();
 
 
 function Authenticate(e)
 {
+    appInsights.trackEvent({name: 'Authenticate function called'});
     fetch('http://127.0.0.1:5172/login',
         {
             method: "POST",
@@ -24,6 +32,7 @@ function Authenticate(e)
         }
     )
     .then(response => {
+        appInsights.trackEvent({name: 'Response from server received'});
             if (response.ok) { // Check if response went through
                 return response.text();
             } else {
@@ -31,18 +40,21 @@ function Authenticate(e)
             }
         })
     .then(data => { 
+        appInsights.trackEvent({name: 'Data received from server'});
             console.log(data);
             let dataObj = JSON.parse(data);
             Cookies.set('auth', data, { expires: 7 }); // The cookie will expire after 7 days
             Cookies.set('base64', btoa(dataObj.username+":"+dataObj.password), { expires: 7 });
         })
     .catch(error => {
+        appInsights.trackException({exception: error});
         console.log('There has been a problem with your fetch operation: ', error.message);
         })
 }
 
 
 function NewUser(e){
+    appInsights.trackEvent({name: 'New User function called'});
     fetch('http://127.0.0.1:5172/newUser',{
             method: "POST",
             headers: {
@@ -58,6 +70,7 @@ function NewUser(e){
         })
         .then(response => response.text())
         .then(data => { 
+            appInsights.trackEvent({name: 'Data received from server'});
             console.log(data);
     })
 }

@@ -12,9 +12,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Alert from 'react-bootstrap/Alert';
 
+import { ApplicationInsights } from '@microsoft/applicationinsights-web'
 
+const appInsights = new ApplicationInsights({config: {
+    instrumentationKey: ''
+    /* ...Other Configuration Options... */
+  }});
+  appInsights.loadAppInsights();
 
 function CardDisplay(){
 
@@ -29,6 +34,7 @@ function CardDisplay(){
 
     function showModal(modalId) 
     {
+        appInsights.trackEvent({name: 'Show Modal'});
         setActiveModal(modalId);
         if(recipes !== null)
         {
@@ -36,6 +42,7 @@ function CardDisplay(){
             for(let i = 0; i < recipes.length; i++){
                 if(modalId.indexOf(i) > -1)
                 {
+                    appInsights.trackEvent({name: 'Fetching data for recipe'});
                     console.log(modalId);
                     fetch('http://127.0.0.1:5172/recipeIngredients/{repcipeTitle}?recipeTitle='+recipes[i].title)
                     .then(response => response.json())
@@ -87,9 +94,11 @@ function CardDisplay(){
     useEffect(() => {
 
         if(apiHelloWorld === null){
+            appInsights.trackEvent({name: 'Fetching data from API'});
                 fetch('http://127.0.0.1:5172/recipes')
                 .then(response => response.text())
                 .then(data => { 
+                    appInsights.trackEvent({name: 'Data fetched from API'});
                     setHelloWorld(data);
                     console.log(data);
             })
@@ -97,9 +106,11 @@ function CardDisplay(){
         }
 
         if(apiWeather === null){
+            appInsights.trackEvent({name: 'Fetching weather data from API'});
             fetch('http://127.0.0.1:5172/weatherforecast')
             .then(response => response.json())
             .then(data => {
+                appInsights.trackEvent({name: 'Weather data fetched from API'});
                 setWeatherData(data)
                 console.log(data);
             })
@@ -110,6 +121,7 @@ function CardDisplay(){
             fetch('http://127.0.0.1:5172/recipeTitles')
             .then(response => response.json())
             .then(data => {
+                appInsights.trackEvent({name: 'Fetching recipe titles from API'});
                     setRecipe(data);
                     console.log(data);
                 })
@@ -133,6 +145,7 @@ function CardDisplay(){
 
     if (recipes !== null){
         const cards = recipes.map((recipe, index) => { 
+            appInsights.trackEvent({name: 'Creating recipe cards'});
             console.log(recipe);
             return (
                 <Col key={index}>
