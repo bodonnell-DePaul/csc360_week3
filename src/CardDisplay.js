@@ -3,8 +3,6 @@ import './index.css';
 //import App from './App';
 import RecipeTitle from './RecipeTitle';
 import IngredientList from './IngredientList';
-import {api_recipes} from './Common';
-import PreperationSteps from './PreperationSteps';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
@@ -44,7 +42,7 @@ function CardDisplay(){
                 {
                     appInsights.trackEvent({name: 'Fetching data for recipe'});
                     console.log(modalId);
-                    fetch('http://127.0.0.1:5172/recipeIngredients/{repcipeTitle}?recipeTitle='+recipes[i].title)
+                    fetch('https://csc360-backend.azurewebsites.net/recipeIngredients/{repcipeTitle}?recipeTitle='+recipes[i].title)
                     .then(response => response.json())
                     .then(data => { 
                         setIngredients(data);
@@ -95,7 +93,7 @@ function CardDisplay(){
 
         if(apiHelloWorld === null){
             appInsights.trackEvent({name: 'Fetching data from API'});
-                fetch('http://127.0.0.1:5172/recipes')
+                fetch('https://csc360-backend.azurewebsites.net/recipes')
                 .then(response => response.text())
                 .then(data => { 
                     appInsights.trackEvent({name: 'Data fetched from API'});
@@ -107,7 +105,7 @@ function CardDisplay(){
 
         if(apiWeather === null){
             appInsights.trackEvent({name: 'Fetching weather data from API'});
-            fetch('http://127.0.0.1:5172/weatherforecast')
+            fetch('https://csc360-backend.azurewebsites.net/weatherforecast')
             .then(response => response.json())
             .then(data => {
                 appInsights.trackEvent({name: 'Weather data fetched from API'});
@@ -118,7 +116,7 @@ function CardDisplay(){
         }
 
         if(recipes === null){
-            fetch('http://127.0.0.1:5172/recipeTitles')
+            fetch('https://csc360-backend.azurewebsites.net/recipeTitles')
             .then(response => response.json())
             .then(data => {
                 appInsights.trackEvent({name: 'Fetching recipe titles from API'});
