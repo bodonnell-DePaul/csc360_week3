@@ -14,9 +14,9 @@ function App() {
       <Navigation/>
       <Routes>
         <Route exact path="/" element={<CardDisplay/>} />
-        <Route path="/drafts" element={<Drafts/>} />
-        <Route path="/login" element={<Login/>} />
-        <Route path="/newItem" element={<NewItem/>} />
+        <Route path="drafts" element={<Drafts/>} />
+        <Route path="login" element={<Login/>} />
+        <Route path="newItem" element={<NewItem/>} />
       </Routes>
     </Router>
   );
