@@ -188,7 +188,8 @@ function CardDisplay(){
                         </div>
                     ))
                 }
-                <ChatBot hubUrl="http://127.0.0.1:5172/chatHub"/>
+                {/* <ChatBot hubUrl="http://127.0.0.1:5172/chatHub"/> */}
+                <ChatBot hubUrl="https://csc360-backend.azurewebsites.net/chatHub"/>
             </Container>
             // <ChatBot hubUrl="https://csc360-backend.azurewebsites.net/chat"/>
             
