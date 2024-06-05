@@ -12,6 +12,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 import { ApplicationInsights } from '@microsoft/applicationinsights-web'
+import ChatBot from './Chatbot';
 
 const appInsights = new ApplicationInsights({config: {
     instrumentationKey: ''
@@ -187,7 +188,10 @@ function CardDisplay(){
                         </div>
                     ))
                 }
+                <ChatBot hubUrl="http://127.0.0.1:5172/chatHub"/>
             </Container>
+            // <ChatBot hubUrl="https://csc360-backend.azurewebsites.net/chat"/>
+            
         )
     }
 }
