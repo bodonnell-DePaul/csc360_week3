@@ -15,6 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     env: 
       CI: false
+      REACT_APP_APP_URL: ${{ secrets.REACT_APP_APP_URL }}
+      REACT_APP_SIGNALR_URL: ${{ secrets.REACT_APP_SIGNALR_URL }}
+      REACT_APP_BACKEND_URL: ${{ secrets.REACT_APP_BACKEND_URL }}
     name: Build and Deploy Job
     steps:
       - uses: actions/checkout@v3
