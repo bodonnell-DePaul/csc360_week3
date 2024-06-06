@@ -14,7 +14,7 @@ appInsights.loadAppInsights();
 function Authenticate(e)
 {
     appInsights.trackEvent({name: 'Authenticate function called'});
-    fetch('https://csc360-backend.azurewebsites.net/login',
+    fetch(process.env.REACT_APP_BACKEND_URL+'/login',
         {
             method: "POST",
             headers: 
@@ -55,7 +55,7 @@ function Authenticate(e)
 
 function NewUser(e){
     appInsights.trackEvent({name: 'New User function called'});
-    fetch('https://csc360-backend.azurewebsites.net/newUser',{
+    fetch(process.env.REACT_APP_BACKEND_URL+'/newUser',{
             method: "POST",
             headers: {
                 "Content-type" : "application/json",

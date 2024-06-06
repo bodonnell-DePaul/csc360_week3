@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 
 function RecipeSubmit(e) {
 
-    fetch('https://csc360-backend.azurewebsites.net/recipeTitles',{
+    fetch(process.env.REACT_APP_BACKEND_URL+'/recipeTitles',{
     method: "POST",
     headers: {
         "Content-type" : "application/json",

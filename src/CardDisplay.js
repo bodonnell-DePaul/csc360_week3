@@ -43,7 +43,7 @@ function CardDisplay(){
                 {
                     appInsights.trackEvent({name: 'Fetching data for recipe'});
                     console.log(modalId);
-                    fetch('https://csc360-backend.azurewebsites.net/recipeIngredients/{repcipeTitle}?recipeTitle='+recipes[i].title)
+                    fetch(process.env.REACT_APP_BACKEND_URL+'/recipeIngredients/{repcipeTitle}?recipeTitle='+recipes[i].title)
                     .then(response => response.json())
                     .then(data => { 
                         setIngredients(data);
@@ -94,7 +94,7 @@ function CardDisplay(){
 
         if(apiHelloWorld === null){
             appInsights.trackEvent({name: 'Fetching data from API'});
-                fetch('https://csc360-backend.azurewebsites.net/recipes')
+                fetch(process.env.REACT_APP_BACKEND_URL+'/recipes')
                 .then(response => response.text())
                 .then(data => { 
                     appInsights.trackEvent({name: 'Data fetched from API'});
@@ -106,7 +106,7 @@ function CardDisplay(){
 
         if(apiWeather === null){
             appInsights.trackEvent({name: 'Fetching weather data from API'});
-            fetch('https://csc360-backend.azurewebsites.net/weatherforecast')
+            fetch(process.env.REACT_APP_BACKEND_URL+'/weatherforecast')
             .then(response => response.json())
             .then(data => {
                 appInsights.trackEvent({name: 'Weather data fetched from API'});
@@ -117,7 +117,7 @@ function CardDisplay(){
         }
 
         if(recipes === null){
-            fetch('https://csc360-backend.azurewebsites.net/recipeTitles')
+            fetch(process.env.REACT_APP_BACKEND_URL+'/recipeTitles')
             .then(response => response.json())
             .then(data => {
                 appInsights.trackEvent({name: 'Fetching recipe titles from API'});
@@ -188,10 +188,10 @@ function CardDisplay(){
                         </div>
                     ))
                 }
-                {/* <ChatBot hubUrl="http://127.0.0.1:5172/chatHub"/> */}
-                <ChatBot hubUrl="https://csc360-backend.azurewebsites.net/chatHub"/>
+                <ChatBot hubUrl={process.env.REACT_APP_SIGNALR_URL}/>
+
+                
             </Container>
-            // <ChatBot hubUrl="https://csc360-backend.azurewebsites.net/chat"/>
             
         )
     }
